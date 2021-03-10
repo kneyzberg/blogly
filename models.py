@@ -9,7 +9,6 @@ def connect_db(app):
     db.app = app
     db.init_app(app)
 
-
 class User(db.Model):
     """User"""
     __tablename__ = "users"
@@ -24,3 +23,7 @@ class User(db.Model):
                           default='')
     # (first_name, last_name, unique=true)
 
+    # repr for the Users
+    def __repr__(self):
+        s = self
+        return f'user id {s.id} first name is {s.first_name} last is {s.last_name}'
