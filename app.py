@@ -12,4 +12,3 @@ app.config['SECRET_KEY'] = 'our-secret-key'
 
 connect_db(app)
 db.create_all()
-
