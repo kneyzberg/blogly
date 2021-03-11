@@ -22,7 +22,8 @@ def index():
     
 @app.route("/users")
 def users_list():
-    users = User.query.all()
+    users = User.query.order_by('first_name').all()
+    
     return render_template('user_listing.html',users=users)
 
 @app.route("/users/new")
@@ -30,7 +31,7 @@ def new_user_form():
     return render_template("new_user_form.html")
 
 @app.route("/users/new", methods=["POST"])
-def new_users():
+def process_new_user():
     first_name = request.form['first_name']
     last_name = request.form['last_name']
     profile_url = request.form['profile_url']
@@ -52,3 +53,20 @@ def user_details(user_id):
 def edit_user(user_id):
     user = User.query.get_or_404(user_id)
     return render_template("user_edit.html", user=user)
+
+@app.route("/users/<int:user_id>/edit", methods=["POST"])
+def process_edit_form(user_id):
+    user = User.query.get_or_404(user_id)
+    user.first_name = request.form["first_name"]
+    user.last_name = request.form["last_name"]
+    user.image_url = request.form["profile_url"]
+    db.session.commit()
+    return redirect("/users")
+
+
+@app.route("/users/<int:user_id>/delete", methods=["POST"])
+def delete_user(user_id):
+    user = User.query.get_or_404(user_id)
+    db.session.delete(user)
+    db.session.commit()
+    return redirect("/users")
