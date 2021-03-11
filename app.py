@@ -29,9 +29,26 @@ def users_list():
 def new_user_form():
     return render_template("new_user_form.html")
 
+@app.route("/users/new", methods=["POST"])
+def new_users():
+    first_name = request.form['first_name']
+    last_name = request.form['last_name']
+    profile_url = request.form['profile_url']
+    new_user = User(first_name=first_name,
+                    last_name=last_name,
+                    image_url=profile_url)
+    db.session.add(new_user)
+    db.session.commit()
+    return redirect("/users")
+
 @app.route("/users/<int:user_id>")
 def user_details(user_id):
-    user = User.query.get(user_id)
+    user = User.query.get_or_404(user_id)
     name = f"{user.first_name} {user.last_name}"
     url = user.image_url
-    return render_template("user_detail.html", name=name, url=url)
+    return render_template("user_detail.html", name=name, url=url, id=user_id)
+
+@app.route("/users/<int:user_id>/edit")
+def edit_user(user_id):
+    user = User.query.get_or_404(user_id)
+    return render_template("user_edit.html", user=user)
