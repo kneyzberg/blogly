@@ -24,11 +24,14 @@ class TestBloglyApp(TestCase):
             html = response.get_data(as_text=True)
             self.assertIn('<label for="fname">', html)
             self.assertEqual(response.status_code, 200)
+
     def test_process_new_user(self):
         with self.client as client:
-            response = client.post("/users/new", data={'first_name': 'Jim',
-                                                       'last_name': 'Gaffagan',
-                                                       'profile_url': ''}, follow_redirects=True)
+            response = client.post("/users/new",
+                                   data={'first_name': 'Jim',
+                                         'last_name': 'Gaffigan',
+                                         'profile_url': ''},
+                                   follow_redirects=True)
             html = response.get_data(as_text=True)
             self.assertIn('Jim', html)
             self.assertEqual(response.status_code, 200)
