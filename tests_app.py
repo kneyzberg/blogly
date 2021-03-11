@@ -32,7 +32,3 @@ class TestBloglyApp(TestCase):
             html = response.get_data(as_text=True)
             self.assertIn('Jim', html)
             self.assertEqual(response.status_code, 200)
-    # def test_ (self):
-    #     with self.client as client:
-    # def test_ (self):
-    #     with self.client as client:
