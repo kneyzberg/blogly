@@ -45,9 +45,10 @@ def process_new_user():
 @app.route("/users/<int:user_id>")
 def user_details(user_id):
     user = User.query.get_or_404(user_id)
+    posts = user.posts
     name = f"{user.first_name} {user.last_name}"
     url = user.image_url
-    return render_template("user_detail.html", name=name, url=url, id=user_id)
+    return render_template("user_detail.html", name=name, url=url, id=user_id, posts=posts)
 
 @app.route("/users/<int:user_id>/edit")
 def edit_user(user_id):
@@ -70,3 +71,15 @@ def delete_user(user_id):
     db.session.delete(user)
     db.session.commit()
     return redirect("/users")
+
+@app.route("/users/<int:user_id>/posts/new")
+def new_post(user_id):
+    user = User.query.get_or_404(user_id)
+    name = f"{user.first_name} {user.last_name}"
+    return render_template("new_post_form.html", user=user, name=name)
+
+# @app.route("/posts/<int:post_id>")
+# def user_post(post_id):
+#     post = Post.query.get_or_404(post_id)
+#     title = post.title
+#     content = post.content
