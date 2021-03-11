@@ -18,11 +18,21 @@ class TestBloglyApp(TestCase):
             self.assertIn("<h1>", html)
             self.assertEqual(response.status_code, 302)
 
-    def test_ (self):
+    def test_users_list(self):
         with self.client as client:
-    def test_ (self):
+            response = client.get('/users/new')
+            html = response.get_data(as_text=True)
+            self.assertIn('<label for="fname">', html)
+            self.assertEqual(response.status_code, 200)
+    def test_process_new_user(self):
         with self.client as client:
-    def test_ (self):
-        with self.client as client:
-    def test_ (self):
-        with self.client as client:
+            response = client.post("/users/new", data={'first_name': 'Jim',
+                                                       'last_name': 'Gaffagan',
+                                                       'profile_url': ''}, follow_redirects=True)
+            html = response.get_data(as_text=True)
+            self.assertIn('Jim', html)
+            self.assertEqual(response.status_code, 200)
+    # def test_ (self):
+    #     with self.client as client:
+    # def test_ (self):
+    #     with self.client as client:
