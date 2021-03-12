@@ -35,3 +35,14 @@ class TestBloglyApp(TestCase):
             html = response.get_data(as_text=True)
             self.assertIn('Jim', html)
             self.assertEqual(response.status_code, 200)
+    
+    def test_add_post(self):
+        with self.client as client: 
+            response = client.post("/users/1/posts/new",
+                                   data={"post-title": "testing",
+                                         "post-content":"test test test"},
+                                   follow_redirects=True)
+            html = response.get_data(as_text=True)
+            self.assertIn("testing", html)
+            self.assertEqual(response.status_code, 200)
+        

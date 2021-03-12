@@ -7,8 +7,11 @@
     <h1>{{post.title}}</h1>
     <p>{{post.content}}</p>
     <h3><b><i>by {{post.author.first_name}} {{post.author.last_name}}</i></b></h3>
+    <form>
     <a href="/users/{{post.author.id}}" class="btn btn-primary">Cancel</a>
-    <a href="/posts/{{post.id}}/edit" method="POST" class="btn btn-primary">Edit</a>
-    <button action="/posts/{{post.id}}/delete" method="POST" class="btn btn-danger" type="submit">Delete</button>
+    <a href="/posts/{{post.id}}/edit" class="btn btn-primary">Edit</a>
+    <button formaction="/posts/{{post.id}}/delete" formmethod="POST" class="btn btn-danger" type="submit">Delete</button>
+    </form>
+   
 </div>
 {% endblock %}
