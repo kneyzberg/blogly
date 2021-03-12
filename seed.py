@@ -16,6 +16,8 @@ Jane = User(first_name='Jane', last_name='Smith', image_url="https://static.them
 Post1 = Post(title="My first post", content="Wow this is so fun", user_id=1)
 Post2 = Post(title="FLASK FUN", content="flask so cool", user_id=2)
 Post3 = Post(title="Cats are cool", content="grumpy cat is a cool cat", user_id=3)
+
+
 # Add new objects to session, so they'll persist
 db.session.add(Alan)
 db.session.add(Joel)
