@@ -2,7 +2,7 @@
 
 from flask import Flask, request, redirect, render_template
 from flask_debugtoolbar import DebugToolbarExtension
-from models import db, connect_db, User
+from models import db, connect_db, User, Post
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///blogly'
@@ -78,8 +78,28 @@ def new_post(user_id):
     name = f"{user.first_name} {user.last_name}"
     return render_template("new_post_form.html", user=user, name=name)
 
-# @app.route("/posts/<int:post_id>")
-# def user_post(post_id):
+@app.route("/users/<int:user_id>/posts/new", methods=["POST"])
+def process_post_form(user_id):
+    user = User.query.get_or_404(user_id)
+    title = request.form["post-title"]
+    content = request.form["post-content"]
+    newPost = Post(title=title, content=content)
+    user.posts.append(newPost)
+    db.session.commit()
+    return redirect(f"/users/{user_id}")
+
+@app.route("/posts/<int:post_id>")
+def user_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    return render_template('post_detail.html', post=post)
+
+@app.route("/posts/<int:post_id>/edit")
+def edit_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    return render_template('edit_post.html', post=post)
+
+# @app.route("/posts/<int:post_id>/edit", methods=["POST"])
+# def edit_post(post_id):
 #     post = Post.query.get_or_404(post_id)
-#     title = post.title
-#     content = post.content
+#     return render_template('edit_post.html', post=post)
+
